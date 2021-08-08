@@ -24,5 +24,5 @@ jobs:
           aws lambda update-function-code --function-name=process_s3_data_function --zip-file=fileb://deploy.zip
           aws lambda update-function-configuration --function-name process_s3_data_function  --environment 'Variables={env=prod}'
           aws lambda publish-version --function-name process_s3_data_function 2>&1 | tee response.log
-          echo "::set-output name=response::$(cat response.txt)"
+          echo "::set-output name=response::$(cat response.log)"
           echo "response is : ${{steps.publish_lambda_function.outputs.response}}"
