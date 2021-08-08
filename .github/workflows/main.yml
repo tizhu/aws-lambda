@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "start pubish"
           zip -j deploy.zip lambda_function.py
-          aws lambda update-function-code --function-name=process_s3_data_lambda --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=process_s3_data_function --zip-file=fileb://deploy.zip
           aws lambda update-function-configuration --function-name process_s3_data_function  --environment 'Variables={env=prod}'
           aws publish-version --function-name process_s3_data_function 2>&1 | tee test.log
           cat test.log
