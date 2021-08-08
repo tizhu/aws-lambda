@@ -21,6 +21,10 @@ jobs:
         run: |
           echo "start pubish"
           zip -j deploy.zip lambda_function.py
-          aws lambda update-function-code --function-name=process_s3_data_lambda --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=process_s3_data_function --zip-file=fileb://deploy.zip
           aws lambda update-function-configuration --function-name process_s3_data_function  --environment 'Variables={env=prod}'
+          echo "::set-output name=publish_lambda_response::$(aws publish-version --function-name process_s3_data_function)"
+          # echo " lambda response is: \n ${{steps.publish_lambda_function.outputs.publish_lambda_response}}"
+          # aws lambda update-alias --function-name process_s3_data_function --name prod --function-version ${{fromJson(steps.publish_lambda_function.outputs.publish_lambda_response).Version}}
+
  
