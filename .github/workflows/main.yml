@@ -23,8 +23,6 @@ jobs:
           zip -j deploy.zip lambda_function.py
           aws lambda update-function-code --function-name=process_s3_data_function --zip-file=fileb://deploy.zip
           aws lambda update-function-configuration --function-name process_s3_data_function  --environment 'Variables={env=prod}'
-          aws lambda publish-version --function-name process_s3_data_function 2>&1 | tee response.json
-          content=`cat response.json`
-          echo "::set-output name=packageJson::$content"
-      - run: |
-          echo "version is: ${{fromJson(steps.publish_lambda_function.outputs.packageJson).version}}"
+          
+          version = $( aws lambda publish-version --function-name process_s3_data_function | jq '.version' )
+          echo "version is: $version"
