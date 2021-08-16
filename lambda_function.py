@@ -10,12 +10,13 @@ s3_client = boto3.client("s3")
 
 
 def lambda_handler(event, context):
-   destination_bucket_name = 'outbound-data-bucket'
 
-   # Bucket Name where file was uploaded
+   # Source
    source_bucket_name = event['Records'][0]['s3']['bucket']['name']
    source_file_key_name = event['Records'][0]['s3']['object']['key']
-   # Filename of object (with path)
+
+   # Destination
+   destination_bucket_name = 'outbound-data-bucket'
    desitination_file_key_name = f'{env}/' + source_file_key_name
 
    # Copy Source Object
